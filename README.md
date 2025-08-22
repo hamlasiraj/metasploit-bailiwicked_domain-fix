@@ -35,6 +35,12 @@ end
 
 ---
 
+## 📝 Notes
+- Tested on Metasploit Framework version: [6.4.69-dev]
+- This fix only addresses the IPAddr.each crash — functionality remains the same.
+
+---
+
 ## ⚠️ Disclaimer
 This module exploits a **known DNS vulnerability (CVE-2008-1447)**.  
 👉 Use **only in a controlled lab environment** for **research and educational purposes**.  
