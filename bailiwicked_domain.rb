@@ -250,20 +250,19 @@ class MetasploitModule < Msf::Auxiliary
       print_status "  Querying recon nameserver for address of #{rr0.nsdname}..."
       answer1 = res0.send(rr0.nsdname) # get the ns's answer for the hostname
       # print_status " Got answer with #{answer1.header.anCount} answers, #{answer1.header.nsCount} authorities"
-answer1.answer.each do |rr1|
-  print_status "   Got an #{rr1.type} record: #{rr1.inspect}"
-  Array(rr1.address).each do |ip|
-    res2 = Net::DNS::Resolver.new(nameservers: [ip.to_s], dns_search: false, recursive: false, retry: 1)
-    print_status "    Checking Authoritativeness: Querying #{ip} for #{domain}..."
-    answer2 = res2.send(domain, Net::DNS::SOA)
-    next unless answer2 && answer2.header.auth? && (answer2.header.anCount >= 1)
+      answer1.answer.each do |rr1|
+        print_status "   Got an #{rr1.type} record: #{rr1.inspect}"
+        Array(rr1.address).each do |ip|
+        res2 = Net::DNS::Resolver.new(nameservers: [ip.to_s], dns_search: false, recursive: false, retry: 1)
+        print_status "    Checking Authoritativeness: Querying #{ip} for #{domain}..."
+        answer2 = res2.send(domain, Net::DNS::SOA)
+        next unless answer2 && answer2.header.auth? && (answer2.header.anCount >= 1)
 
-    nsrec = { name: rr0.nsdname, addr: ip }
-    barbs << nsrec
-    print_status "    #{rr0.nsdname} is authoritative for #{domain}, adding to list of nameservers to spoof as"
-  end
-end
-
+        nsrec = { name: rr0.nsdname, addr: ip }
+        barbs << nsrec
+        print_status "    #{rr0.nsdname} is authoritative for #{domain}, adding to list of nameservers to spoof as"
+      end
+    end
     end
 
     if barbs.empty?
