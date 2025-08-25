@@ -20,6 +20,7 @@ line 253
 
 ```ruby
 Array(rr1.address).each do |ip|
+res2 = Net::DNS::Resolver.new(nameservers: [ip.to_s],...
   # original code logic
 end
 ```
