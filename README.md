@@ -16,9 +16,10 @@ This happens because the code calls **`.each` on an `IPAddr` object** instead of
 
 ## 🛠️ Fix
 The fix is to **wrap the IP object in an array before iterating**:
+line 253
 
 ```ruby
-[ip].each do |addr|
+Array(rr1.address).each do |ip|
   # original code logic
 end
 ```
